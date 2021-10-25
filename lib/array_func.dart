@@ -20,28 +20,28 @@ bool isFull(List<List<String>> arr){
   return true;
 }
 
-bool doneAsRow(List<List<String>> arr){
+int doneAsRow(List<List<String>> arr){
   for (int row = 0; row < 3; row++) {
-    if( arr[row].every((col) => col == 'x') ||   arr[row].every((col) => col == 'o')) return true;
+    if( arr[row].every((col) => col == 'X') ||   arr[row].every((col) => col == 'O')) return row;
   }
-  return false;
+  return -1;
 }
 
-bool doneAsColumn(List<List<String>> arr){
+int doneAsColumn(List<List<String>> arr){
   return doneAsRow(transpose(arr));
 }
 
-bool doneAsCross(List<List<String>> arr){
+int doneAsCross(List<List<String>> arr){
   List<String> list = [];
   for(int i = 0;i<3;i++) {
     list.add(arr[i][i]);
   }
-  if(list.every((element) => element == 'x') || list.every((element) => element == 'o')) return true;
+  if(list.every((element) => element == 'X') || list.every((element) => element == 'O')) return 0;
 
   list = [];
   list.addAll([arr[0][2] , arr[1][1] ,  arr[2][0]]);
-  if(list.every((element) => element == 'x') || list.every((element) => element == 'o')) return true;
+  if(list.every((element) => element == 'X') || list.every((element) => element == 'O')) return 1;
 
-  return false;
+  return -1;
 
 }

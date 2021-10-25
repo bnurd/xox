@@ -3,24 +3,29 @@ import 'package:flutter/material.dart';
 import 'custom_colors.dart';
 
 class CardComponent extends StatelessWidget {
-   CardComponent({Key? key,required this.txt,required this.left,required this.top,required this.bottom, required this.right}) : super(key: key);
-
+  CardComponent({
+    Key? key,
+    required this.txt,
+    required this.type,
+    this.left = false,
+    this.top = false,
+    this.bottom = false,
+    this.right = false,
+  }) : super(key: key);
 
   final String txt;
+  final String type;
   final bool left;
   final bool top;
   final bool right;
   final bool bottom;
 
-
-  var borderSide =  BorderSide(
+  var borderSide = BorderSide(
     color: CustomColors.borderColor,
     width: 3.0,
   );
 
   var borderSideEmpty = BorderSide.none;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +43,13 @@ class CardComponent extends StatelessWidget {
       ),
       child: Center(
           child: Text(
-            txt,
-            style: TextStyle(
-              color: txt == 'X' ? CustomColors.xColor :CustomColors.oColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 60,
-            ),
-          )),
+        txt,
+        style: TextStyle(
+          color: type == 'X' ? CustomColors.xColor : CustomColors.oColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 60,
+        ),
+      )),
     );
   }
 }
