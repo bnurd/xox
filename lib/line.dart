@@ -30,7 +30,7 @@ class _LineState extends State<Line> with SingleTickerProviderStateMixin {
       vsync: this,
     );
 
-    animation = Tween(begin: 1.0, end: 0.0).animate(controller)
+    animation = Tween(begin: 0.0, end: 1.0).animate(controller)
       ..addListener(() {
         setState(() {
           _progress = animation.value;
@@ -58,6 +58,7 @@ class LinePainter extends CustomPainter {
   final LineForm form;
   final int position; // 0 1 2
   final String attack;
+  late int lineOffset;
 
   LinePainter(
       {required this.progress,
@@ -67,33 +68,27 @@ class LinePainter extends CustomPainter {
     _paint = Paint()
       ..color = attack == 'X' ? CustomColors.xColor : CustomColors.oColor
       ..strokeWidth = 8.0;
+
+    lineOffset = (position * 2 + 1);
   }
+
+  verticalOffset(Size size) => size.width / 6 * (position * 2 + 1);
+  horizantalOffset(Size size) => size.height / 6 * (position * 2 + 1);
 
   @override
   void paint(Canvas canvas, Size size) {
     switch (form) {
       case LineForm.HORIZONTAL:
         canvas.drawLine(
-          Offset(
-            0.0,
-            size.width / 6 * (position * 2 + 1),
-          ),
-          Offset(
-            size.height - size.height * progress,
-            size.width / 6 * (position * 2 + 1),
-          ),
-          // Offset(size.width - size.width * progress,
-          //     size.height - size.height * progress),
+          Offset(0.0, verticalOffset(size)),
+          Offset(size.width * progress, verticalOffset(size)),
           _paint,
         );
         break;
       case LineForm.VERTICAL:
         canvas.drawLine(
-          Offset(size.width / 6 * (position * 2 + 1), 0.0),
-          Offset(size.width / 6 * (position * 2 + 1),
-              size.height - size.height * progress),
-          // Offset(size.width - size.width * progress,
-          //     size.height - size.height * progress),
+          Offset(horizantalOffset(size), 0.0),
+          Offset(horizantalOffset(size), size.height * progress),
           _paint,
         );
         break;
